@@ -146,6 +146,15 @@ export interface VerbConjugation {
   example: { ru: string; fr: string };
 }
 
+export interface Idiom {
+  id: string;
+  ru: string;
+  literal: string; // traduction mot à mot
+  meaning: string; // sens figuré / équivalent français
+  level: CEFRLevel;
+  example?: { ru: string; fr: string };
+}
+
 export interface CaseInfo {
   id: string;
   name: string; // nom russe (ex. "Родительный")

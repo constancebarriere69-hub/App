@@ -14,6 +14,7 @@ import { Vocabulaire } from "./pages/Vocabulaire";
 import { Conjugaison } from "./pages/Conjugaison";
 import { Declinaison } from "./pages/Declinaison";
 import { Nombres } from "./pages/Nombres";
+import { Idiomes } from "./pages/Idiomes";
 import { Profil } from "./pages/Profil";
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
           <Route path="/conjugaison/:id" element={<Conjugaison />} />
           <Route path="/declinaison" element={<Declinaison />} />
           <Route path="/nombres" element={<Nombres />} />
+          <Route path="/idiomes" element={<Idiomes />} />
           <Route path="/profil" element={<Profil />} />
         </Route>
       </Routes>

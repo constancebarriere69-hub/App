@@ -6,6 +6,7 @@ import { useProfilesStore } from "../store/profiles";
 import { ProgressBar } from "../components/ProgressBar";
 import { palierColorClasses } from "../lib/palierColors";
 import { Mascot } from "../components/Mascot";
+import { IdiomOfTheDay } from "../components/IdiomOfTheDay";
 import { getLevelInfo } from "../lib/levels";
 import type { LessonProgress } from "../store/progress";
 import type { Palier } from "../types/content";
@@ -155,7 +156,16 @@ export function Dashboard() {
         </Link>
       </section>
 
-      <section className="grid grid-cols-3 gap-2 mb-8">
+      <IdiomOfTheDay />
+
+      <section className="grid grid-cols-4 gap-2 mb-8">
+        <Link
+          to="/palier/palier-1?tab=alphabet"
+          className="rounded-2xl border border-pink-100 bg-white p-3 text-center hover:shadow-md transition"
+        >
+          <p className="text-2xl mb-1">🔤</p>
+          <p className="text-[11px] font-semibold text-gray-800">Alphabet</p>
+        </Link>
         <Link
           to="/revision"
           className="rounded-2xl border border-pink-100 bg-white p-3 text-center hover:shadow-md transition"
@@ -197,6 +207,13 @@ export function Dashboard() {
         >
           <p className="text-2xl mb-1">🧩</p>
           <p className="text-[11px] font-semibold text-gray-800">Vocabulaire</p>
+        </Link>
+        <Link
+          to="/idiomes"
+          className="rounded-2xl border border-pink-100 bg-white p-3 text-center hover:shadow-md transition"
+        >
+          <p className="text-2xl mb-1">💬</p>
+          <p className="text-[11px] font-semibold text-gray-800">Expressions</p>
         </Link>
       </section>
 
