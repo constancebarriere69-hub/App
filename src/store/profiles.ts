@@ -28,6 +28,7 @@ interface ProfilesState {
   deleteProfile: (id: string) => void;
   renameProfile: (id: string, name: string) => void;
   updateAvatar: (id: string, avatar: string, color: string, accessory?: string) => void;
+  reloadFromStorage: () => void;
 }
 
 export const useProfilesStore = create<ProfilesState>()(
@@ -73,6 +74,23 @@ export const useProfilesStore = create<ProfilesState>()(
             p.id === id ? { ...p, avatar, color, accessory: accessory ?? p.accessory } : p
           ),
         }));
+      },
+
+      // Relit `ru-app-profiles` depuis le localStorage (ex. après une restauration de
+      // sauvegarde qui a écrit directement dedans) et resynchronise tous les stores,
+      // sans recharger la page.
+      reloadFromStorage: () => {
+        try {
+          const raw = localStorage.getItem("ru-app-profiles");
+          if (!raw) return;
+          const parsed = JSON.parse(raw) as { state?: { profiles?: Profile[]; activeProfileId?: string | null } };
+          const profiles = parsed.state?.profiles ?? [];
+          const activeProfileId = parsed.state?.activeProfileId ?? null;
+          set({ profiles, activeProfileId });
+          if (activeProfileId) rehydrateProfileStores(activeProfileId);
+        } catch {
+          // Sauvegarde illisible : on garde l'état actuel plutôt que de planter.
+        }
       },
     }),
     {

@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useProfilesStore } from "../store/profiles";
 import { palierColorClasses } from "../lib/palierColors";
+import { exportBackup, importBackup } from "../lib/backup";
 import {
   AvatarBear,
   BEAR_FUR_COLORS,
@@ -150,6 +151,7 @@ export function Profil() {
   const updateAvatar = useProfilesStore((s) => s.updateAvatar);
   const switchProfile = useProfilesStore((s) => s.switchProfile);
   const deleteProfile = useProfilesStore((s) => s.deleteProfile);
+  const reloadFromStorage = useProfilesStore((s) => s.reloadFromStorage);
 
   const active = profiles.find((p) => p.id === activeProfileId);
   const [nameDraft, setNameDraft] = useState(active?.name ?? "");
@@ -160,8 +162,19 @@ export function Profil() {
   }, [active?.id, active?.name]);
 
   const [showNewForm, setShowNewForm] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   if (!active) return null;
+
+  const doImport = async (file: File) => {
+    if (!window.confirm("Restaurer cette sauvegarde remplacera tous les profils et toute la progression sur cet appareil. Continuer ?")) return;
+    try {
+      await importBackup(file);
+      reloadFromStorage();
+    } catch (e) {
+      window.alert(e instanceof Error ? e.message : "Impossible de restaurer cette sauvegarde.");
+    }
+  };
 
   const activeFurColor = resolveFurColor(active.avatar);
   const activeAccessory = resolveAccessory(active.accessory);
@@ -241,6 +254,38 @@ export function Profil() {
           + Ajouter un profil
         </button>
       )}
+
+      <section className="rounded-2xl border border-pink-100 bg-white p-5 mb-6">
+        <h2 className="font-heading font-bold text-gray-900 mb-1">Sauvegarde</h2>
+        <p className="text-xs text-gray-500 mb-3">
+          Toute la progression est stockée uniquement sur cet appareil. Exporte un fichier de sauvegarde pour ne rien perdre si tu changes de téléphone ou vides le cache du navigateur.
+        </p>
+        <div className="flex flex-wrap gap-2">
+          <button
+            onClick={exportBackup}
+            className="px-4 py-2 rounded-full bg-gray-900 text-white text-sm font-semibold hover:bg-gray-700 active:scale-95 transition"
+          >
+            ⬇️ Exporter mes données
+          </button>
+          <button
+            onClick={() => fileInputRef.current?.click()}
+            className="px-4 py-2 rounded-full border border-gray-200 text-gray-600 text-sm font-semibold hover:border-fuchsia-300 active:scale-95 transition"
+          >
+            ⬆️ Restaurer une sauvegarde
+          </button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="application/json"
+            className="hidden"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) void doImport(file);
+              e.target.value = "";
+            }}
+          />
+        </div>
+      </section>
 
       {profiles.length > 1 && (
         <button
