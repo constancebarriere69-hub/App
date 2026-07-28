@@ -1,8 +1,9 @@
 export interface Profile {
   id: string;
   name: string;
-  avatar: string;
-  color: string;
+  avatar: string; // couleur de pelage de l'ours (BearFurColor)
+  color: string; // couleur du fond derrière l'ours
+  accessory?: string; // accessoire de l'ours (BearAccessory)
   createdAt: string;
 }
 
@@ -38,8 +39,9 @@ function bootstrap(): ProfilesPersisted {
   const defaultProfile: Profile = {
     id: generateId(),
     name: "Moi",
-    avatar: "🐻",
+    avatar: "brown",
     color: "rose",
+    accessory: "none",
     createdAt: new Date().toISOString(),
   };
 

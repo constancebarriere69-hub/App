@@ -5,6 +5,7 @@ import { useProfilesStore } from "../store/profiles";
 import { BottomNav } from "./BottomNav";
 import { CelebrationOverlay } from "./CelebrationOverlay";
 import { Mascot } from "./Mascot";
+import { AvatarBear, resolveFurColor, resolveAccessory } from "./AvatarBear";
 import { palierColorClasses } from "../lib/palierColors";
 
 export function Layout() {
@@ -41,9 +42,9 @@ export function Layout() {
               <Link
                 to="/profil"
                 title={activeProfile.name}
-                className={`w-8 h-8 rounded-full flex items-center justify-center text-base ${avatarColors.badge} hover:scale-105 transition`}
+                className={`w-8 h-8 rounded-full flex items-center justify-center ${avatarColors.badge} hover:scale-105 transition`}
               >
-                {activeProfile.avatar}
+                <AvatarBear furColor={resolveFurColor(activeProfile.avatar)} accessory={resolveAccessory(activeProfile.accessory)} size={26} />
               </Link>
             )}
           </div>

@@ -23,11 +23,11 @@ function rehydrateProfileStores(profileId: string) {
 interface ProfilesState {
   profiles: Profile[];
   activeProfileId: string | null;
-  createProfile: (name: string, avatar: string, color: string) => string;
+  createProfile: (name: string, avatar: string, color: string, accessory?: string) => string;
   switchProfile: (id: string) => void;
   deleteProfile: (id: string) => void;
   renameProfile: (id: string, name: string) => void;
-  updateAvatar: (id: string, avatar: string, color: string) => void;
+  updateAvatar: (id: string, avatar: string, color: string, accessory?: string) => void;
 }
 
 export const useProfilesStore = create<ProfilesState>()(
@@ -36,9 +36,9 @@ export const useProfilesStore = create<ProfilesState>()(
       profiles: [],
       activeProfileId: null,
 
-      createProfile: (name, avatar, color) => {
+      createProfile: (name, avatar, color, accessory = "none") => {
         const id = generateId();
-        const profile: Profile = { id, name: name.trim() || "Sans nom", avatar, color, createdAt: new Date().toISOString() };
+        const profile: Profile = { id, name: name.trim() || "Sans nom", avatar, color, accessory, createdAt: new Date().toISOString() };
         set((state) => ({ profiles: [...state.profiles, profile] }));
         return id;
       },
@@ -67,8 +67,12 @@ export const useProfilesStore = create<ProfilesState>()(
         set((state) => ({ profiles: state.profiles.map((p) => (p.id === id ? { ...p, name: trimmed } : p)) }));
       },
 
-      updateAvatar: (id, avatar, color) => {
-        set((state) => ({ profiles: state.profiles.map((p) => (p.id === id ? { ...p, avatar, color } : p)) }));
+      updateAvatar: (id, avatar, color, accessory) => {
+        set((state) => ({
+          profiles: state.profiles.map((p) =>
+            p.id === id ? { ...p, avatar, color, accessory: accessory ?? p.accessory } : p
+          ),
+        }));
       },
     }),
     {

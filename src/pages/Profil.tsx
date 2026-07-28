@@ -1,18 +1,94 @@
 import { useEffect, useState } from "react";
 import { useProfilesStore } from "../store/profiles";
 import { palierColorClasses } from "../lib/palierColors";
+import {
+  AvatarBear,
+  BEAR_FUR_COLORS,
+  BEAR_ACCESSORIES,
+  resolveFurColor,
+  resolveAccessory,
+  type BearFurColor,
+  type BearAccessory,
+} from "../components/AvatarBear";
 
-const AVATAR_CHOICES = ["🦊", "🐱", "🐶", "🦉", "🐰", "🦄", "🐼", "🐨", "🦁", "🐯", "🐸", "🐧"];
 const COLOR_CHOICES = ["rose", "orange", "amber", "emerald", "sky", "violet", "teal", "indigo"];
+const ACCESSORY_LABELS: Record<BearAccessory, string> = {
+  none: "Aucun",
+  bow: "Nœud",
+  flower: "Fleur",
+  glasses: "Lunettes",
+  star: "Étoile",
+};
 
-function AvatarCircle({ avatar, color, size = 56 }: { avatar: string; color: string; size?: number }) {
-  const colors = palierColorClasses[color] ?? palierColorClasses.rose;
+function BearPicker({
+  furColor,
+  accessory,
+  bgColor,
+  onChangeFur,
+  onChangeAccessory,
+  onChangeBg,
+}: {
+  furColor: BearFurColor;
+  accessory: BearAccessory;
+  bgColor: string;
+  onChangeFur: (c: BearFurColor) => void;
+  onChangeAccessory: (a: BearAccessory) => void;
+  onChangeBg: (c: string) => void;
+}) {
   return (
-    <div
-      className={`rounded-full flex items-center justify-center ${colors.badge} shrink-0`}
-      style={{ width: size, height: size, fontSize: size * 0.5 }}
-    >
-      {avatar}
+    <>
+      <p className="text-xs text-gray-400 mb-1.5">Couleur de l'ours</p>
+      <div className="flex flex-wrap gap-2 mb-3">
+        {BEAR_FUR_COLORS.map((c) => (
+          <button
+            key={c}
+            onClick={() => onChangeFur(c)}
+            className={`rounded-full border-2 transition ${furColor === c ? "border-fuchsia-500" : "border-transparent"}`}
+          >
+            <AvatarBear furColor={c} accessory="none" size={40} />
+          </button>
+        ))}
+      </div>
+      <p className="text-xs text-gray-400 mb-1.5">Accessoire</p>
+      <div className="flex flex-wrap gap-2 mb-3">
+        {BEAR_ACCESSORIES.map((a) => (
+          <button
+            key={a}
+            onClick={() => onChangeAccessory(a)}
+            className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition ${
+              accessory === a ? "bg-fuchsia-600 text-white border-fuchsia-600" : "bg-white text-gray-600 border-gray-200 hover:border-fuchsia-300"
+            }`}
+          >
+            {ACCESSORY_LABELS[a]}
+          </button>
+        ))}
+      </div>
+      <p className="text-xs text-gray-400 mb-1.5">Fond</p>
+      <div className="flex flex-wrap gap-2">
+        {COLOR_CHOICES.map((c) => {
+          const colors = palierColorClasses[c] ?? palierColorClasses.rose;
+          return (
+            <button
+              key={c}
+              onClick={() => onChangeBg(c)}
+              className={`w-8 h-8 rounded-full ${colors.bar} border-2 transition ${
+                bgColor === c ? "border-gray-900 scale-110" : "border-transparent"
+              }`}
+            />
+          );
+        })}
+      </div>
+    </>
+  );
+}
+
+function AvatarCircle({ avatar, accessory, color, size = 56 }: { avatar: string; accessory?: string; color: string; size?: number }) {
+  const colors = palierColorClasses[color] ?? palierColorClasses.rose;
+  const furColor = resolveFurColor(avatar);
+  const bearAccessory = resolveAccessory(accessory);
+  return (
+    <div className={`rounded-full flex items-center justify-center ${colors.badge} shrink-0`} style={{ width: size, height: size }}>
+      <AvatarBear furColor={furColor} accessory={bearAccessory} size={size * 0.8} />
     </div>
   );
 }
@@ -21,12 +97,13 @@ function NewProfileForm({ onCancel }: { onCancel: () => void }) {
   const createProfile = useProfilesStore((s) => s.createProfile);
   const switchProfile = useProfilesStore((s) => s.switchProfile);
   const [name, setName] = useState("");
-  const [avatar, setAvatar] = useState(AVATAR_CHOICES[0]);
-  const [color, setColor] = useState(COLOR_CHOICES[0]);
+  const [furColor, setFurColor] = useState<BearFurColor>(BEAR_FUR_COLORS[0]);
+  const [accessory, setAccessory] = useState<BearAccessory>("none");
+  const [bgColor, setBgColor] = useState(COLOR_CHOICES[0]);
 
   const submit = () => {
     if (!name.trim()) return;
-    const id = createProfile(name, avatar, color);
+    const id = createProfile(name, furColor, bgColor, accessory);
     switchProfile(id);
     onCancel();
   };
@@ -42,36 +119,15 @@ function NewProfileForm({ onCancel }: { onCancel: () => void }) {
         className="w-full rounded-xl border border-gray-200 px-4 py-2.5 mb-3 focus:outline-none focus:ring-2 focus:ring-fuchsia-400"
         autoFocus
       />
-      <p className="text-xs text-gray-400 mb-1.5">Avatar</p>
-      <div className="flex flex-wrap gap-2 mb-3">
-        {AVATAR_CHOICES.map((a) => (
-          <button
-            key={a}
-            onClick={() => setAvatar(a)}
-            className={`w-10 h-10 rounded-full flex items-center justify-center text-xl border-2 transition ${
-              avatar === a ? "border-fuchsia-500 bg-white" : "border-transparent bg-gray-50"
-            }`}
-          >
-            {a}
-          </button>
-        ))}
-      </div>
-      <p className="text-xs text-gray-400 mb-1.5">Couleur</p>
-      <div className="flex flex-wrap gap-2 mb-4">
-        {COLOR_CHOICES.map((c) => {
-          const colors = palierColorClasses[c] ?? palierColorClasses.rose;
-          return (
-            <button
-              key={c}
-              onClick={() => setColor(c)}
-              className={`w-8 h-8 rounded-full ${colors.bar} border-2 transition ${
-                color === c ? "border-gray-900 scale-110" : "border-transparent"
-              }`}
-            />
-          );
-        })}
-      </div>
-      <div className="flex gap-2">
+      <BearPicker
+        furColor={furColor}
+        accessory={accessory}
+        bgColor={bgColor}
+        onChangeFur={setFurColor}
+        onChangeAccessory={setAccessory}
+        onChangeBg={setBgColor}
+      />
+      <div className="flex gap-2 mt-4">
         <button
           onClick={submit}
           disabled={!name.trim()}
@@ -107,6 +163,9 @@ export function Profil() {
 
   if (!active) return null;
 
+  const activeFurColor = resolveFurColor(active.avatar);
+  const activeAccessory = resolveAccessory(active.accessory);
+
   const saveName = () => {
     if (nameDraft.trim() && nameDraft.trim() !== active.name) renameProfile(active.id, nameDraft);
   };
@@ -131,7 +190,7 @@ export function Profil() {
 
       <div className="rounded-2xl border border-pink-100 bg-white p-5 mb-6">
         <div className="flex items-center gap-4 mb-4">
-          <AvatarCircle avatar={active.avatar} color={active.color} size={64} />
+          <AvatarCircle avatar={active.avatar} accessory={active.accessory} color={active.color} size={64} />
           <input
             type="text"
             value={nameDraft}
@@ -141,35 +200,14 @@ export function Profil() {
             className="flex-1 text-xl font-bold font-heading text-gray-900 rounded-lg border border-transparent hover:border-gray-200 focus:border-fuchsia-300 px-2 py-1 -ml-2 focus:outline-none"
           />
         </div>
-        <p className="text-xs text-gray-400 mb-1.5">Avatar</p>
-        <div className="flex flex-wrap gap-2 mb-3">
-          {AVATAR_CHOICES.map((a) => (
-            <button
-              key={a}
-              onClick={() => updateAvatar(active.id, a, active.color)}
-              className={`w-10 h-10 rounded-full flex items-center justify-center text-xl border-2 transition ${
-                active.avatar === a ? "border-fuchsia-500 bg-white" : "border-transparent bg-gray-50"
-              }`}
-            >
-              {a}
-            </button>
-          ))}
-        </div>
-        <p className="text-xs text-gray-400 mb-1.5">Couleur</p>
-        <div className="flex flex-wrap gap-2">
-          {COLOR_CHOICES.map((c) => {
-            const colors = palierColorClasses[c] ?? palierColorClasses.rose;
-            return (
-              <button
-                key={c}
-                onClick={() => updateAvatar(active.id, active.avatar, c)}
-                className={`w-8 h-8 rounded-full ${colors.bar} border-2 transition ${
-                  active.color === c ? "border-gray-900 scale-110" : "border-transparent"
-                }`}
-              />
-            );
-          })}
-        </div>
+        <BearPicker
+          furColor={activeFurColor}
+          accessory={activeAccessory}
+          bgColor={active.color}
+          onChangeFur={(c) => updateAvatar(active.id, c, active.color, active.accessory)}
+          onChangeAccessory={(a) => updateAvatar(active.id, active.avatar, active.color, a)}
+          onChangeBg={(c) => updateAvatar(active.id, active.avatar, c, active.accessory)}
+        />
       </div>
 
       <section className="mb-6">
@@ -183,7 +221,7 @@ export function Profil() {
                 p.id === active.id ? "border-fuchsia-400 bg-fuchsia-50/50" : "border-gray-200 bg-white hover:border-fuchsia-300"
               }`}
             >
-              <AvatarCircle avatar={p.avatar} color={p.color} size={44} />
+              <AvatarCircle avatar={p.avatar} accessory={p.accessory} color={p.color} size={44} />
               <div>
                 <p className="font-semibold text-gray-900">{p.name}</p>
                 <p className="text-xs text-gray-400">{p.id === active.id ? "Profil actif ✓" : "Toucher pour basculer"}</p>
