@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { profileScopedKey } from "../lib/profileStorage";
 
 export interface SrsCard {
   key: string;
@@ -96,7 +97,7 @@ export const useSrsStore = create<SrsState>()(
       getTotalCount: () => Object.keys(get().cards).length,
     }),
     {
-      name: "ru-app-srs",
+      name: profileScopedKey("ru-app-srs"),
     }
   )
 );

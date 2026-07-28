@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { paliers } from "../data/paliers";
 import { literature } from "../data/literature";
 import { useProgressStore } from "../store/progress";
+import { useProfilesStore } from "../store/profiles";
 import { ProgressBar } from "../components/ProgressBar";
 import { palierColorClasses } from "../lib/palierColors";
 import { Mascot } from "../components/Mascot";
@@ -54,6 +55,9 @@ export function Dashboard() {
   const readWorksCount = useProgressStore((s) => s.readWorks.length);
   // Souscription pour re-render quand la progression change.
   useProgressStore((s) => s.progress);
+  const profiles = useProfilesStore((s) => s.profiles);
+  const activeProfileId = useProfilesStore((s) => s.activeProfileId);
+  const activeProfile = profiles.find((p) => p.id === activeProfileId);
 
   const recommendation = findRecommendation(paliers, getLessonProgress);
   const overall = getOverallCompletion(paliers);
@@ -64,7 +68,9 @@ export function Dashboard() {
       <section className="mb-6 flex items-center gap-4">
         <Mascot mood="excited" size={72} className="animate-bounce-in" />
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-1 font-heading">Привет! 👋</h1>
+          <h1 className="text-3xl font-bold text-gray-900 mb-1 font-heading">
+            Привет{activeProfile && activeProfile.name !== "Moi" ? `, ${activeProfile.name}` : ""} ! 👋
+          </h1>
           <p className="text-gray-500 text-sm">
             Apprends le russe un peu chaque jour : alphabet, grammaire, prononciation, orthographe, poésie et podcasts.
           </p>

@@ -3,6 +3,7 @@ import { persist } from "zustand/middleware";
 import type { Palier } from "../types/content";
 import { getLevelInfo } from "../lib/levels";
 import { useCelebrationStore } from "./celebration";
+import { profileScopedKey } from "../lib/profileStorage";
 
 export interface LessonProgress {
   alphabet: boolean;
@@ -207,7 +208,7 @@ export const useProgressStore = create<ProgressState>()(
       },
     }),
     {
-      name: "ru-app-progress",
+      name: profileScopedKey("ru-app-progress"),
     }
   )
 );

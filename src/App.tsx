@@ -12,6 +12,7 @@ import { Revision } from "./pages/Revision";
 import { Grammaire } from "./pages/Grammaire";
 import { Vocabulaire } from "./pages/Vocabulaire";
 import { Conjugaison } from "./pages/Conjugaison";
+import { Profil } from "./pages/Profil";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           <Route path="/vocabulaire/:id" element={<Vocabulaire />} />
           <Route path="/conjugaison" element={<Conjugaison />} />
           <Route path="/conjugaison/:id" element={<Conjugaison />} />
+          <Route path="/profil" element={<Profil />} />
         </Route>
       </Routes>
     </HashRouter>

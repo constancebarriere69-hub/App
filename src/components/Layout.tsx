@@ -1,14 +1,20 @@
 import { Link, Outlet } from "react-router-dom";
 import { useEffect } from "react";
 import { useProgressStore } from "../store/progress";
+import { useProfilesStore } from "../store/profiles";
 import { BottomNav } from "./BottomNav";
 import { CelebrationOverlay } from "./CelebrationOverlay";
 import { Mascot } from "./Mascot";
+import { palierColorClasses } from "../lib/palierColors";
 
 export function Layout() {
   const visitToday = useProgressStore((s) => s.visitToday);
   const streak = useProgressStore((s) => s.getStreak());
   const xp = useProgressStore((s) => s.xp);
+  const profiles = useProfilesStore((s) => s.profiles);
+  const activeProfileId = useProfilesStore((s) => s.activeProfileId);
+  const activeProfile = profiles.find((p) => p.id === activeProfileId);
+  const avatarColors = palierColorClasses[activeProfile?.color ?? "rose"] ?? palierColorClasses.rose;
 
   useEffect(() => {
     visitToday();
@@ -31,6 +37,15 @@ export function Layout() {
               <span>🔥</span>
               <span>{streak}</span>
             </div>
+            {activeProfile && (
+              <Link
+                to="/profil"
+                title={activeProfile.name}
+                className={`w-8 h-8 rounded-full flex items-center justify-center text-base ${avatarColors.badge} hover:scale-105 transition`}
+              >
+                {activeProfile.avatar}
+              </Link>
+            )}
           </div>
         </div>
       </header>
