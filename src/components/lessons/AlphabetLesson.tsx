@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { AlphabetLetter } from "../../types/content";
 import { SpeakButton } from "../SpeakButton";
 import { AlphabetGroups } from "./AlphabetGroups";
+import { AlphabetWriting } from "./AlphabetWriting";
 
 const FILTERS: { key: AlphabetLetter["type"] | "tous"; label: string }[] = [
   { key: "tous", label: "Tous" },
@@ -19,7 +20,7 @@ export function AlphabetLesson({
   palierId: string;
   onDone: () => void;
 }) {
-  const [mode, setMode] = useState<"explorer" | "express">("explorer");
+  const [mode, setMode] = useState<"explorer" | "express" | "writing">("explorer");
   const [filter, setFilter] = useState<AlphabetLetter["type"] | "tous">("tous");
   const shown = filter === "tous" ? letters : letters.filter((l) => l.type === filter);
 
@@ -42,10 +43,20 @@ export function AlphabetLesson({
         >
           ⚡ Par étapes
         </button>
+        <button
+          onClick={() => setMode("writing")}
+          className={`flex-1 px-3 py-2.5 rounded-xl text-sm font-semibold border-2 transition ${
+            mode === "writing" ? "border-fuchsia-500 bg-fuchsia-50 text-fuchsia-700" : "border-gray-200 bg-white text-gray-500"
+          }`}
+        >
+          ✍️ Écrire
+        </button>
       </div>
 
       {mode === "express" ? (
         <AlphabetGroups letters={letters} palierId={palierId} onAllDone={onDone} />
+      ) : mode === "writing" ? (
+        <AlphabetWriting letters={letters} />
       ) : (
         <>
           <p className="text-sm text-gray-500 mb-4">
