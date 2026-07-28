@@ -1,6 +1,8 @@
 export interface Profile {
   id: string;
   name: string;
+  email?: string;
+  passwordHash?: string; // empreinte SHA-256 — verrou local, pas une vraie authentification
   avatar: string; // couleur de pelage de l'ours (BearFurColor)
   color: string; // couleur du fond derrière l'ours
   accessory?: string; // accessoire de l'ours (BearAccessory)

@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { Profile } from "../lib/profileStorage";
 import { removeProfileData } from "../lib/profileStorage";
+import { hashPassword, verifyPassword } from "../lib/auth";
 import { useProgressStore } from "./progress";
 import { useSrsStore } from "./srs";
 
@@ -23,11 +24,15 @@ function rehydrateProfileStores(profileId: string) {
 interface ProfilesState {
   profiles: Profile[];
   activeProfileId: string | null;
-  createProfile: (name: string, avatar: string, color: string, accessory?: string) => string;
+  createProfile: (name: string, avatar: string, color: string, accessory?: string, email?: string) => string;
   switchProfile: (id: string) => void;
   deleteProfile: (id: string) => void;
   renameProfile: (id: string, name: string) => void;
   updateAvatar: (id: string, avatar: string, color: string, accessory?: string) => void;
+  setEmail: (id: string, email: string) => void;
+  setPassword: (id: string, password: string) => Promise<void>;
+  clearPassword: (id: string) => void;
+  checkPassword: (id: string, password: string) => Promise<boolean>;
   reloadFromStorage: () => void;
 }
 
@@ -37,9 +42,17 @@ export const useProfilesStore = create<ProfilesState>()(
       profiles: [],
       activeProfileId: null,
 
-      createProfile: (name, avatar, color, accessory = "none") => {
+      createProfile: (name, avatar, color, accessory = "none", email) => {
         const id = generateId();
-        const profile: Profile = { id, name: name.trim() || "Sans nom", avatar, color, accessory, createdAt: new Date().toISOString() };
+        const profile: Profile = {
+          id,
+          name: name.trim() || "Sans nom",
+          email: email?.trim() || undefined,
+          avatar,
+          color,
+          accessory,
+          createdAt: new Date().toISOString(),
+        };
         set((state) => ({ profiles: [...state.profiles, profile] }));
         return id;
       },
@@ -74,6 +87,31 @@ export const useProfilesStore = create<ProfilesState>()(
             p.id === id ? { ...p, avatar, color, accessory: accessory ?? p.accessory } : p
           ),
         }));
+      },
+
+      setEmail: (id, email) => {
+        const trimmed = email.trim();
+        set((state) => ({
+          profiles: state.profiles.map((p) => (p.id === id ? { ...p, email: trimmed || undefined } : p)),
+        }));
+      },
+
+      setPassword: async (id, password) => {
+        if (!password) return;
+        const passwordHash = await hashPassword(password);
+        set((state) => ({ profiles: state.profiles.map((p) => (p.id === id ? { ...p, passwordHash } : p)) }));
+      },
+
+      clearPassword: (id) => {
+        set((state) => ({
+          profiles: state.profiles.map((p) => (p.id === id ? { ...p, passwordHash: undefined } : p)),
+        }));
+      },
+
+      checkPassword: async (id, password) => {
+        const profile = get().profiles.find((p) => p.id === id);
+        if (!profile?.passwordHash) return true;
+        return verifyPassword(password, profile.passwordHash);
       },
 
       // Relit `ru-app-profiles` depuis le localStorage (ex. après une restauration de
