@@ -146,6 +146,30 @@ export interface VerbConjugation {
   example: { ru: string; fr: string };
 }
 
+export interface AspectPair {
+  id: string;
+  imperfective: string;
+  imperfectiveFr: string;
+  perfective: string;
+  perfectiveFr: string;
+  level: CEFRLevel;
+  note?: string;
+  exampleImperfective: { ru: string; fr: string };
+  examplePerfective: { ru: string; fr: string };
+}
+
+export interface MotionVerbPair {
+  id: string;
+  unidirectional: string;
+  unidirectionalFr: string;
+  multidirectional: string;
+  multidirectionalFr: string;
+  meaning: string;
+  level: CEFRLevel;
+  exampleUnidirectional: { ru: string; fr: string };
+  exampleMultidirectional: { ru: string; fr: string };
+}
+
 export interface Idiom {
   id: string;
   ru: string;

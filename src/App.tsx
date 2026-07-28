@@ -15,6 +15,8 @@ import { Conjugaison } from "./pages/Conjugaison";
 import { Declinaison } from "./pages/Declinaison";
 import { Nombres } from "./pages/Nombres";
 import { Idiomes } from "./pages/Idiomes";
+import { Aspects } from "./pages/Aspects";
+import { VerbesMouvement } from "./pages/VerbesMouvement";
 import { Profil } from "./pages/Profil";
 
 function App() {
@@ -39,6 +41,8 @@ function App() {
           <Route path="/declinaison" element={<Declinaison />} />
           <Route path="/nombres" element={<Nombres />} />
           <Route path="/idiomes" element={<Idiomes />} />
+          <Route path="/aspects" element={<Aspects />} />
+          <Route path="/verbes-mouvement" element={<VerbesMouvement />} />
           <Route path="/profil" element={<Profil />} />
         </Route>
       </Routes>
