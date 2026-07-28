@@ -150,6 +150,10 @@ export function AlphabetExpress({ letters, onDone }: { letters: AlphabetLetter[]
             <p className="text-xs text-gray-400 mt-3">
               {revealed
                 ? `${current.example.ru} — ${current.example.fr}`
+                : current.type === "signe"
+                ? ttsSupported
+                  ? "Écoute le mot : quelle lettre s'y cache ?"
+                  : `${current.example.ru} — quelle lettre se cache dans ce mot ?`
                 : ttsSupported
                 ? "Écoute le mot : par quelle lettre commence-t-il ?"
                 : `${current.example.ru} — par quelle lettre commence ce mot ?`}
