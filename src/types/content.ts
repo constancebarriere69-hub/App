@@ -132,6 +132,20 @@ export interface VocabTheme {
   words: VocabItem[];
 }
 
+export interface VerbConjugation {
+  id: string;
+  infinitive: string;
+  infinitiveFr: string;
+  group: "I" | "II" | "irrégulier";
+  level: CEFRLevel;
+  tenseLabel: string; // "Présent" ou "Futur" (pour être, dont le présent est omis)
+  forms: { ya: string; ty: string; on: string; my: string; vy: string; oni: string };
+  past: { m: string; f: string; n: string; pl: string };
+  imperative?: { ty: string; vy: string };
+  note?: string;
+  example: { ru: string; fr: string };
+}
+
 export interface DialogueScenario {
   id: string;
   title: string;

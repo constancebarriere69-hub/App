@@ -149,27 +149,34 @@ export function Dashboard() {
         </Link>
       </section>
 
-      <section className="grid grid-cols-3 gap-3 mb-8">
+      <section className="grid grid-cols-4 gap-2 mb-8">
         <Link
           to="/revision"
-          className="rounded-2xl border border-pink-100 bg-white p-4 text-center hover:shadow-md transition"
+          className="rounded-2xl border border-pink-100 bg-white p-3 text-center hover:shadow-md transition"
         >
           <p className="text-2xl mb-1">⚡</p>
-          <p className="text-xs font-semibold text-gray-800">Réviser</p>
+          <p className="text-[11px] font-semibold text-gray-800">Réviser</p>
         </Link>
         <Link
           to="/grammaire"
-          className="rounded-2xl border border-pink-100 bg-white p-4 text-center hover:shadow-md transition"
+          className="rounded-2xl border border-pink-100 bg-white p-3 text-center hover:shadow-md transition"
         >
           <p className="text-2xl mb-1">📚</p>
-          <p className="text-xs font-semibold text-gray-800">Grammaire</p>
+          <p className="text-[11px] font-semibold text-gray-800">Grammaire</p>
+        </Link>
+        <Link
+          to="/conjugaison"
+          className="rounded-2xl border border-pink-100 bg-white p-3 text-center hover:shadow-md transition"
+        >
+          <p className="text-2xl mb-1">🔀</p>
+          <p className="text-[11px] font-semibold text-gray-800">Conjugaison</p>
         </Link>
         <Link
           to="/vocabulaire"
-          className="rounded-2xl border border-pink-100 bg-white p-4 text-center hover:shadow-md transition"
+          className="rounded-2xl border border-pink-100 bg-white p-3 text-center hover:shadow-md transition"
         >
           <p className="text-2xl mb-1">🧩</p>
-          <p className="text-xs font-semibold text-gray-800">Vocabulaire</p>
+          <p className="text-[11px] font-semibold text-gray-800">Vocabulaire</p>
         </Link>
       </section>
 

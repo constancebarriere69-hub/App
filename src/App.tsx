@@ -11,6 +11,7 @@ import { DialogueSessionPage } from "./pages/DialogueSessionPage";
 import { Revision } from "./pages/Revision";
 import { Grammaire } from "./pages/Grammaire";
 import { Vocabulaire } from "./pages/Vocabulaire";
+import { Conjugaison } from "./pages/Conjugaison";
 
 function App() {
   return (
@@ -29,6 +30,8 @@ function App() {
           <Route path="/grammaire" element={<Grammaire />} />
           <Route path="/vocabulaire" element={<Vocabulaire />} />
           <Route path="/vocabulaire/:id" element={<Vocabulaire />} />
+          <Route path="/conjugaison" element={<Conjugaison />} />
+          <Route path="/conjugaison/:id" element={<Conjugaison />} />
         </Route>
       </Routes>
     </HashRouter>
