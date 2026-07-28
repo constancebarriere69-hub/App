@@ -2,6 +2,7 @@ import { paliers } from "../data/paliers";
 import { literature } from "../data/literature";
 import { dialogues } from "../data/dialogues";
 import { useProgressStore } from "../store/progress";
+import { useSrsStore } from "../store/srs";
 import { getLevelInfo } from "../lib/levels";
 import { computeBadges } from "../lib/badges";
 import { ProgressBar } from "../components/ProgressBar";
@@ -28,9 +29,19 @@ export function Progres() {
   const readWorks = useProgressStore((s) => s.readWorks);
   const dialoguesDone = useProgressStore((s) => s.dialoguesDone);
   const getPalierCompletion = useProgressStore((s) => s.getPalierCompletion);
+  const srsTotalReviews = useSrsStore((s) => s.totalReviews);
 
   const { current, next, progressToNext } = getLevelInfo(xp);
-  const badges = computeBadges(progress, streak, readWorks, paliers, literature.length, dialoguesDone, dialogues.length);
+  const badges = computeBadges(
+    progress,
+    streak,
+    readWorks,
+    paliers,
+    literature.length,
+    dialoguesDone,
+    dialogues.length,
+    srsTotalReviews
+  );
   const unlockedCount = badges.filter((b) => b.unlocked).length;
 
   const days = lastNDays(28);

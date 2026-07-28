@@ -76,7 +76,7 @@ export type LiteraryDifficulty = "facile" | "intermédiaire" | "avancé";
 
 export interface LiteraryWork {
   id: string;
-  type: "poème" | "prose" | "comptine" | "conte";
+  type: "poème" | "prose" | "comptine" | "conte" | "récit";
   title: string;
   author: string;
   authorDates: string;
@@ -111,6 +111,25 @@ export interface DialogueTurn {
   hint: string; // ce que l'apprenant peut répondre, en français
   modelAnswer: { ru: string; fr: string }; // réponse modèle jouée après le tour
   keywords: string[]; // racines russes acceptées dans la réponse parlée (une seule suffit)
+}
+
+export interface HistoryPeriod {
+  id: string;
+  title: string;
+  years: string;
+  icon: string;
+  level: CEFRLevel;
+  paragraphs: { ru: string; fr: string }[];
+  keyFacts: string[];
+  vocab: { ru: string; fr: string }[];
+}
+
+export interface VocabTheme {
+  id: string;
+  title: string;
+  icon: string;
+  level: CEFRLevel;
+  words: VocabItem[];
 }
 
 export interface DialogueScenario {

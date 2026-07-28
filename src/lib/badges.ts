@@ -37,7 +37,8 @@ export function computeBadges(
   paliers: Palier[],
   literatureTotal: number,
   dialoguesDone: string[] = [],
-  dialoguesTotal: number = 0
+  dialoguesTotal: number = 0,
+  srsTotalReviews: number = 0
 ): Badge[] {
   const anyStepDone = Object.values(progress).some((lp) =>
     TRACKED.some((s) => Boolean(lp[s]))
@@ -157,6 +158,13 @@ export function computeBadges(
       description: "Termine toutes les scènes de dialogue vocal.",
       icon: "🗣️",
       unlocked: dialoguesTotal > 0 && dialoguesDone.length >= dialoguesTotal,
+    },
+    {
+      id: "memoire",
+      title: "Mémoire d'éléphant",
+      description: "Révise 50 mots avec le système de répétition espacée.",
+      icon: "🐘",
+      unlocked: srsTotalReviews >= 50,
     },
     {
       id: "polyglotte",

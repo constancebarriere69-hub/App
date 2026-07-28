@@ -144,8 +144,32 @@ export function Dashboard() {
           <span className="text-3xl">🕊️</span>
           <div>
             <p className="font-heading font-bold text-gray-900">Bibliothèque russe</p>
-            <p className="text-sm text-gray-500">Pouchkine, Lermontov, Tolstoï… découvre la poésie et les romans russes →</p>
+            <p className="text-sm text-gray-500">Poésie, récits et histoire de la Russie, du plus simple au plus exigeant →</p>
           </div>
+        </Link>
+      </section>
+
+      <section className="grid grid-cols-3 gap-3 mb-8">
+        <Link
+          to="/revision"
+          className="rounded-2xl border border-pink-100 bg-white p-4 text-center hover:shadow-md transition"
+        >
+          <p className="text-2xl mb-1">⚡</p>
+          <p className="text-xs font-semibold text-gray-800">Réviser</p>
+        </Link>
+        <Link
+          to="/grammaire"
+          className="rounded-2xl border border-pink-100 bg-white p-4 text-center hover:shadow-md transition"
+        >
+          <p className="text-2xl mb-1">📚</p>
+          <p className="text-xs font-semibold text-gray-800">Grammaire</p>
+        </Link>
+        <Link
+          to="/vocabulaire"
+          className="rounded-2xl border border-pink-100 bg-white p-4 text-center hover:shadow-md transition"
+        >
+          <p className="text-2xl mb-1">🧩</p>
+          <p className="text-xs font-semibold text-gray-800">Vocabulaire</p>
         </Link>
       </section>
 

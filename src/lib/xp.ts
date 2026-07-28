@@ -15,6 +15,7 @@ export const XP_VALUES = {
   pronunciationCheck: 5, // proportionnel au score, par item
   dialogueTurn: 8, // par tour de dialogue vocal réussi
   dialogueScenario: 15, // bonus à la fin d'un scénario complet
+  srsReview: 3, // par carte révisée avec succès
 };
 
 export const CHEER_MESSAGES = [
