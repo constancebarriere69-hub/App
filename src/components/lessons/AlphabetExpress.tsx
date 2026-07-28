@@ -122,10 +122,21 @@ export function AlphabetExpress({ letters, onDone }: { letters: AlphabetLetter[]
 
       <div className="rounded-2xl border border-pink-100 bg-white p-6 text-center">
         {round === 1 ? (
-          <p className="text-6xl font-bold text-gray-900 font-cyrillic mb-6">
-            {current.upper}
-            {current.lower}
-          </p>
+          <div className="mb-6">
+            <p className="text-6xl font-bold text-gray-900 font-cyrillic mb-3">
+              {current.upper}
+              {current.lower}
+            </p>
+            <button
+              onClick={() => ttsSupported && speak(current.upper, `express-sound-${current.upper}`, { rate: 0.7 })}
+              className={`inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-white border-2 border-fuchsia-200 text-fuchsia-700 text-sm font-semibold hover:border-fuchsia-400 active:scale-95 transition ${
+                speakingId === `express-sound-${current.upper}` ? "animate-speaking" : ""
+              }`}
+              disabled={!ttsSupported}
+            >
+              🔊 Écouter le son
+            </button>
+          </div>
         ) : (
           <div className="mb-6">
             <button

@@ -41,7 +41,8 @@ export function AlphabetLesson({ letters, onDone }: { letters: AlphabetLetter[];
       ) : (
         <>
           <p className="text-sm text-gray-500 mb-4">
-            Clique sur chaque lettre pour entendre sa prononciation. L'alphabet russe (cyrillique) compte 33 lettres.
+            🔊 à côté de la lettre = le son de la lettre seule. 🔊 à côté du mot = le mot d'exemple entier.
+            L'alphabet russe (cyrillique) compte 33 lettres.
           </p>
           <div className="flex gap-2 mb-4 flex-wrap">
             {FILTERS.map((f) => (
@@ -68,10 +69,17 @@ export function AlphabetLesson({ letters, onDone }: { letters: AlphabetLetter[];
                   <span className="text-3xl font-semibold text-gray-900 font-cyrillic">
                     {letter.upper}{letter.lower}
                   </span>
-                  <SpeakButton text={letter.example.ru} id={`letter-${letter.upper}`} size="sm" />
+                  <SpeakButton
+                    text={letter.upper}
+                    id={`letter-sound-${letter.upper}`}
+                    size="sm"
+                    rate={0.7}
+                    label={`Écouter le son de la lettre ${letter.upper}`}
+                  />
                 </div>
                 <p className="text-xs text-gray-500">{letter.frenchSound}</p>
-                <p className="text-sm text-gray-700">
+                <p className="text-sm text-gray-700 flex items-center gap-1.5">
+                  <SpeakButton text={letter.example.ru} id={`letter-word-${letter.upper}`} size="sm" />
                   <span className="font-cyrillic font-medium">{letter.example.ru}</span>{" "}
                   <span className="text-gray-400">— {letter.example.fr}</span>
                 </p>
