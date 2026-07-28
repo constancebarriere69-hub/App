@@ -1,0 +1,127 @@
+// Tailwind a besoin de voir les classes écrites en toutes lettres dans le
+// code source pour les générer : on évite donc `bg-${color}-500` et on
+// passe par cette table statique.
+export const palierColorClasses: Record<
+  string,
+  { bar: string; badge: string; ring: string; text: string; gradient: string }
+> = {
+  rose: {
+    bar: "bg-rose-500",
+    badge: "bg-rose-100 text-rose-700",
+    ring: "ring-rose-300",
+    text: "text-rose-600",
+    gradient: "from-rose-500 to-rose-400",
+  },
+  orange: {
+    bar: "bg-orange-500",
+    badge: "bg-orange-100 text-orange-700",
+    ring: "ring-orange-300",
+    text: "text-orange-600",
+    gradient: "from-orange-500 to-orange-400",
+  },
+  amber: {
+    bar: "bg-amber-500",
+    badge: "bg-amber-100 text-amber-700",
+    ring: "ring-amber-300",
+    text: "text-amber-600",
+    gradient: "from-amber-500 to-amber-400",
+  },
+  emerald: {
+    bar: "bg-emerald-500",
+    badge: "bg-emerald-100 text-emerald-700",
+    ring: "ring-emerald-300",
+    text: "text-emerald-600",
+    gradient: "from-emerald-500 to-emerald-400",
+  },
+  sky: {
+    bar: "bg-sky-500",
+    badge: "bg-sky-100 text-sky-700",
+    ring: "ring-sky-300",
+    text: "text-sky-600",
+    gradient: "from-sky-500 to-sky-400",
+  },
+  violet: {
+    bar: "bg-violet-500",
+    badge: "bg-violet-100 text-violet-700",
+    ring: "ring-violet-300",
+    text: "text-violet-600",
+    gradient: "from-violet-500 to-violet-400",
+  },
+  fuchsia: {
+    bar: "bg-fuchsia-500",
+    badge: "bg-fuchsia-100 text-fuchsia-700",
+    ring: "ring-fuchsia-300",
+    text: "text-fuchsia-600",
+    gradient: "from-fuchsia-500 to-fuchsia-400",
+  },
+  teal: {
+    bar: "bg-teal-500",
+    badge: "bg-teal-100 text-teal-700",
+    ring: "ring-teal-300",
+    text: "text-teal-600",
+    gradient: "from-teal-500 to-teal-400",
+  },
+  indigo: {
+    bar: "bg-indigo-500",
+    badge: "bg-indigo-100 text-indigo-700",
+    ring: "ring-indigo-300",
+    text: "text-indigo-600",
+    gradient: "from-indigo-500 to-indigo-400",
+  },
+  lime: {
+    bar: "bg-lime-500",
+    badge: "bg-lime-100 text-lime-700",
+    ring: "ring-lime-300",
+    text: "text-lime-600",
+    gradient: "from-lime-500 to-lime-400",
+  },
+  cyan: {
+    bar: "bg-cyan-500",
+    badge: "bg-cyan-100 text-cyan-700",
+    ring: "ring-cyan-300",
+    text: "text-cyan-600",
+    gradient: "from-cyan-500 to-cyan-400",
+  },
+  pink: {
+    bar: "bg-pink-500",
+    badge: "bg-pink-100 text-pink-700",
+    ring: "ring-pink-300",
+    text: "text-pink-600",
+    gradient: "from-pink-500 to-pink-400",
+  },
+  purple: {
+    bar: "bg-purple-500",
+    badge: "bg-purple-100 text-purple-700",
+    ring: "ring-purple-300",
+    text: "text-purple-600",
+    gradient: "from-purple-500 to-purple-400",
+  },
+  yellow: {
+    bar: "bg-yellow-500",
+    badge: "bg-yellow-100 text-yellow-700",
+    ring: "ring-yellow-300",
+    text: "text-yellow-600",
+    gradient: "from-yellow-500 to-yellow-400",
+  },
+  red: {
+    bar: "bg-red-500",
+    badge: "bg-red-100 text-red-700",
+    ring: "ring-red-300",
+    text: "text-red-600",
+    gradient: "from-red-500 to-red-400",
+  },
+  blue: {
+    bar: "bg-blue-500",
+    badge: "bg-blue-100 text-blue-700",
+    ring: "ring-blue-300",
+    text: "text-blue-600",
+    gradient: "from-blue-500 to-blue-400",
+  },
+  green: {
+    bar: "bg-green-500",
+    badge: "bg-green-100 text-green-700",
+    ring: "ring-green-300",
+    text: "text-green-600",
+    gradient: "from-green-500 to-green-400",
+  },
+};

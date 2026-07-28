@@ -1,0 +1,15 @@
+{
+  "name": "Русский каждый день — Apprendre le russe",
+  "short_name": "Русский",
+  "description": "Apprendre le russe tous les jours : alphabet, grammaire, prononciation, orthographe, poésie et podcasts.",
+  "start_url": "/App/",
+  "scope": "/App/",
+  "display": "standalone",
+  "background_color": "#fff1f4",
+  "theme_color": "#fff1f4",
+  "orientation": "portrait",
+  "icons": [
+    { "src": "/App/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/App/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
