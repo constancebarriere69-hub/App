@@ -21,18 +21,55 @@ function ThemeCard({ id }: { id: string }) {
 
   return (
     <div>
-      <Link to="/vocabulaire" className="text-sm text-gray-400 hover:text-gray-600">
+      <Link to="/vocabulaire" className="text-sm text-gray-400 hover:text-gray-600 print:hidden">
         ← Retour au vocabulaire
       </Link>
-      <div className="mt-3 mb-6 flex items-center gap-3">
-        <span className="text-4xl">{theme.icon}</span>
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900 font-heading">{theme.title}</h1>
-          <p className="text-sm text-gray-500">{theme.words.length} mots · niveau {theme.level}</p>
+      <div className="mt-3 mb-6 flex flex-wrap items-center justify-between gap-3 print:hidden">
+        <div className="flex items-center gap-3">
+          <span className="text-4xl">{theme.icon}</span>
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900 font-heading">{theme.title}</h1>
+            <p className="text-sm text-gray-500">{theme.words.length} mots · niveau {theme.level}</p>
+          </div>
         </div>
+        <button
+          onClick={() => window.print()}
+          className="shrink-0 text-xs px-3 py-2 rounded-full border border-gray-200 text-gray-600 hover:border-fuchsia-300"
+        >
+          🖨️ Fiche imprimable
+        </button>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-6">
+      {/* Fiche imprimable : visible uniquement à l'impression. */}
+      <div className="hidden print:block">
+        <div className="flex items-center gap-3 mb-1">
+          <span className="text-3xl">{theme.icon}</span>
+          <div>
+            <h1 className="text-xl font-bold">Fiche vocabulaire — {theme.title}</h1>
+            <p className="text-xs text-gray-500">Русский каждый день · niveau {theme.level} · {theme.words.length} mots</p>
+          </div>
+        </div>
+        <table className="w-full mt-4 border-collapse text-sm">
+          <thead>
+            <tr className="border-b-2 border-gray-800 text-left">
+              <th className="py-1.5 pr-3">Russe</th>
+              <th className="py-1.5 pr-3">Transcription</th>
+              <th className="py-1.5">Français</th>
+            </tr>
+          </thead>
+          <tbody>
+            {theme.words.map((word) => (
+              <tr key={word.ru} className="border-b border-gray-300">
+                <td className="py-1.5 pr-3 font-cyrillic font-semibold">{word.ru}</td>
+                <td className="py-1.5 pr-3 text-gray-500 italic">{word.transcription}</td>
+                <td className="py-1.5">{word.fr}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-6 print:hidden">
         {theme.words.map((word, i) => {
           const isFlipped = flipped.has(i);
           const toggle = () =>
@@ -79,7 +116,7 @@ function ThemeCard({ id }: { id: string }) {
 
       <button
         onClick={addToRevision}
-        className="px-6 py-3 rounded-full bg-fuchsia-600 text-white font-semibold hover:bg-fuchsia-700 active:scale-95 transition"
+        className="px-6 py-3 rounded-full bg-fuchsia-600 text-white font-semibold hover:bg-fuchsia-700 active:scale-95 transition print:hidden"
       >
         Ajouter à la révision ⚡
       </button>

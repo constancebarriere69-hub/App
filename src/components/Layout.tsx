@@ -15,8 +15,8 @@ export function Layout() {
   }, [visitToday]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-pink-50 via-white to-white text-gray-800">
-      <header className="sticky top-0 z-30 backdrop-blur bg-white/85 border-b border-pink-100 pt-safe">
+    <div className="min-h-screen bg-gradient-to-b from-pink-50 via-white to-white text-gray-800 print:bg-none print:bg-white">
+      <header className="sticky top-0 z-30 backdrop-blur bg-white/85 border-b border-pink-100 pt-safe print:hidden">
         <div className="max-w-5xl mx-auto px-4 py-2.5 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 font-bold text-lg text-gray-900 font-heading">
             <Mascot mood="happy" size={34} />
