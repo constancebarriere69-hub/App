@@ -204,6 +204,22 @@ export interface NounDeclension {
   };
 }
 
+export type GrammarCase = "genitif" | "datif" | "accusatif" | "instrumental" | "prepositionnel";
+
+export interface PrepositionSense {
+  case: GrammarCase;
+  meaning: string; // sens précis en français pour ce cas
+  example: { ru: string; fr: string };
+}
+
+export interface Preposition {
+  id: string;
+  ru: string;
+  level: CEFRLevel;
+  senses: PrepositionSense[]; // une préposition peut gouverner plusieurs cas selon le sens
+  note?: string;
+}
+
 export interface NumberEntry {
   value: number;
   ru: string;
