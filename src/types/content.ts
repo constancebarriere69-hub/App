@@ -146,6 +146,37 @@ export interface VerbConjugation {
   example: { ru: string; fr: string };
 }
 
+export interface CaseInfo {
+  id: string;
+  name: string; // nom russe (ex. "Родительный")
+  nameFr: string; // nom français (ex. "Génitif")
+  question: string; // ex. "Кого? Чего?"
+  usage: string; // explication en français
+  example: { ru: string; fr: string };
+}
+
+export interface NounDeclension {
+  id: string;
+  word: string;
+  wordFr: string;
+  gender: "masculin" | "féminin" | "neutre";
+  note?: string;
+  forms: {
+    nominatif: string;
+    genitif: string;
+    datif: string;
+    accusatif: string;
+    instrumental: string;
+    prepositionnel: string;
+  };
+}
+
+export interface NumberEntry {
+  value: number;
+  ru: string;
+  transcription: string;
+}
+
 export interface DialogueScenario {
   id: string;
   title: string;
