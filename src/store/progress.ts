@@ -6,6 +6,7 @@ import { useCelebrationStore } from "./celebration";
 
 export interface LessonProgress {
   alphabet: boolean;
+  alphabetGroupsDone: number[];
   grammar: boolean;
   pronunciation: boolean;
   pronunciationCheckScore?: number;
@@ -27,6 +28,7 @@ export interface LessonProgress {
 
 const emptyLessonProgress: LessonProgress = {
   alphabet: false,
+  alphabetGroupsDone: [],
   grammar: false,
   pronunciation: false,
   spelling: false,
@@ -63,6 +65,7 @@ interface ProgressState {
   dialoguesDone: string[];
   markStep: (palierId: string, step: keyof LessonProgress, value?: boolean | number | string) => void;
   award: (palierId: string, step: keyof LessonProgress, value: boolean | number | string, xpAmount: number, message: string) => void;
+  markAlphabetGroupDone: (palierId: string, groupIndex: number, xpAmount: number, message: string) => void;
   markLiteraryRead: (workId: string, xpAmount: number, message: string) => void;
   markDialogueDone: (scenarioId: string, xpAmount: number, message: string) => void;
   addXp: (xpAmount: number, message: string) => void;
@@ -118,6 +121,25 @@ export const useProgressStore = create<ProgressState>()(
 
       award: (palierId, step, value, xpAmount, message) => {
         get().markStep(palierId, step, value);
+        grantXp(() => get().xp, (n) => set({ xp: n }), xpAmount, message);
+      },
+
+      markAlphabetGroupDone: (palierId, groupIndex, xpAmount, message) => {
+        const current = get().progress[palierId] ?? emptyLessonProgress;
+        if ((current.alphabetGroupsDone ?? []).includes(groupIndex)) return;
+        set((state) => {
+          const cur = state.progress[palierId] ?? { ...emptyLessonProgress };
+          return {
+            progress: {
+              ...state.progress,
+              [palierId]: {
+                ...cur,
+                alphabetGroupsDone: [...(cur.alphabetGroupsDone ?? []), groupIndex],
+              },
+            },
+          };
+        });
+        get().visitToday();
         grantXp(() => get().xp, (n) => set({ xp: n }), xpAmount, message);
       },
 

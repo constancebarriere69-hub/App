@@ -107,6 +107,7 @@ export function PalierPage() {
         {activeTab === "alphabet" && palier.alphabet && (
           <AlphabetLesson
             letters={palier.alphabet}
+            palierId={palier.id}
             onDone={() => award(palier.id, "alphabet", true, XP_VALUES.alphabet, randomCheer())}
           />
         )}

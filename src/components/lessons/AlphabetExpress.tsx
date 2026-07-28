@@ -18,8 +18,17 @@ function pickDistractors(letters: AlphabetLetter[], exclude: AlphabetLetter, n: 
   return shuffle(letters.filter((l) => l.upper !== exclude.upper)).slice(0, n);
 }
 
-export function AlphabetExpress({ letters, onDone }: { letters: AlphabetLetter[]; onDone: () => void }) {
+export function AlphabetExpress({
+  letters,
+  allLetters,
+  onDone,
+}: {
+  letters: AlphabetLetter[];
+  allLetters?: AlphabetLetter[];
+  onDone: () => void;
+}) {
   const { speak, supported: ttsSupported, speakingId } = useSpeech();
+  const pool = allLetters ?? letters;
 
   const [round, setRound] = useState<Round>(1);
   const [queue, setQueue] = useState<AlphabetLetter[]>(() => shuffle(letters));
@@ -34,11 +43,11 @@ export function AlphabetExpress({ letters, onDone }: { letters: AlphabetLetter[]
   const options = useMemo(() => {
     if (!current) return [];
     if (round === 1) {
-      const distractors = pickDistractors(letters, current, 3).map((l) => l.name);
+      const distractors = pickDistractors(pool, current, 3).map((l) => l.name);
       return shuffle([current.name, ...distractors]);
     }
     if (round === 2) {
-      const distractors = pickDistractors(letters, current, 3);
+      const distractors = pickDistractors(pool, current, 3);
       return shuffle([current, ...distractors]);
     }
     return [];
@@ -89,7 +98,9 @@ export function AlphabetExpress({ letters, onDone }: { letters: AlphabetLetter[]
       <div className="rounded-2xl border border-pink-100 bg-white p-6 text-center">
         <Mascot mood="proud" size={80} className="mx-auto mb-3" />
         <p className="text-lg font-bold text-gray-900 font-heading">Leçon express terminée !</p>
-        <p className="text-sm text-gray-500 mb-1">Les 33 lettres reconnues dans les deux manches. 🎉</p>
+        <p className="text-sm text-gray-500 mb-1">
+          {letters.length > 1 ? `Les ${letters.length} lettres reconnues` : "Lettre reconnue"} dans les deux manches. 🎉
+        </p>
         <p className="text-xs text-gray-400 mb-4">Précision globale : {score}%</p>
         <button
           onClick={onDone}

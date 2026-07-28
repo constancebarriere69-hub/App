@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { AlphabetLetter } from "../../types/content";
 import { SpeakButton } from "../SpeakButton";
-import { AlphabetExpress } from "./AlphabetExpress";
+import { AlphabetGroups } from "./AlphabetGroups";
 
 const FILTERS: { key: AlphabetLetter["type"] | "tous"; label: string }[] = [
   { key: "tous", label: "Tous" },
@@ -10,7 +10,15 @@ const FILTERS: { key: AlphabetLetter["type"] | "tous"; label: string }[] = [
   { key: "signe", label: "Signes" },
 ];
 
-export function AlphabetLesson({ letters, onDone }: { letters: AlphabetLetter[]; onDone: () => void }) {
+export function AlphabetLesson({
+  letters,
+  palierId,
+  onDone,
+}: {
+  letters: AlphabetLetter[];
+  palierId: string;
+  onDone: () => void;
+}) {
   const [mode, setMode] = useState<"explorer" | "express">("explorer");
   const [filter, setFilter] = useState<AlphabetLetter["type"] | "tous">("tous");
   const shown = filter === "tous" ? letters : letters.filter((l) => l.type === filter);
@@ -32,12 +40,12 @@ export function AlphabetLesson({ letters, onDone }: { letters: AlphabetLetter[];
             mode === "express" ? "border-fuchsia-500 bg-fuchsia-50 text-fuchsia-700" : "border-gray-200 bg-white text-gray-500"
           }`}
         >
-          ⚡ Leçon express
+          ⚡ Par étapes
         </button>
       </div>
 
       {mode === "express" ? (
-        <AlphabetExpress letters={letters} onDone={onDone} />
+        <AlphabetGroups letters={letters} palierId={palierId} onAllDone={onDone} />
       ) : (
         <>
           <p className="text-sm text-gray-500 mb-4">

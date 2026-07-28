@@ -131,6 +131,38 @@ export const vocabThemes: VocabTheme[] = [
       { ru: "перчатки", fr: "gants", transcription: "pertchatki" },
     ],
   },
+  {
+    id: "sentiments",
+    title: "Les sentiments",
+    icon: "💞",
+    level: "B1",
+    words: [
+      { ru: "ревность", fr: "jalousie", transcription: "revnast" },
+      { ru: "гордость", fr: "fierté", transcription: "gordast" },
+      { ru: "стыд", fr: "honte", transcription: "styd" },
+      { ru: "доверие", fr: "confiance", transcription: "daverie" },
+      { ru: "уважение", fr: "respect", transcription: "ouvajenie" },
+      { ru: "нежность", fr: "tendresse", transcription: "nejnast" },
+      { ru: "одиночество", fr: "solitude", transcription: "adinotchestva" },
+      { ru: "благодарность", fr: "gratitude", transcription: "blagadarnast" },
+    ],
+  },
+  {
+    id: "verbes",
+    title: "Verbes essentiels",
+    icon: "🏃",
+    level: "A1",
+    words: [
+      { ru: "быть", fr: "être", transcription: "byt" },
+      { ru: "делать", fr: "faire", transcription: "delat" },
+      { ru: "говорить", fr: "parler", transcription: "gavarit" },
+      { ru: "идти", fr: "aller (à pied)", transcription: "itti" },
+      { ru: "знать", fr: "savoir", transcription: "znat" },
+      { ru: "любить", fr: "aimer", transcription: "lioubit" },
+      { ru: "хотеть", fr: "vouloir", transcription: "khatet" },
+      { ru: "видеть", fr: "voir", transcription: "videt" },
+    ],
+  },
 ];
 
 export function getVocabThemeById(id: string): VocabTheme | undefined {

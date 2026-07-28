@@ -1,5 +1,6 @@
 export const XP_VALUES = {
   alphabet: 15,
+  alphabetGroup: 4,
   grammar: 15,
   pronunciation: 10,
   vocabulary: 10,
