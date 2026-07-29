@@ -5,6 +5,7 @@ import { useProgressStore } from "../store/progress";
 import { useSrsStore, type SrsCard } from "../store/srs";
 import { Mascot } from "../components/Mascot";
 import { SpeakButton } from "../components/SpeakButton";
+import { RevisionFiches } from "../components/RevisionFiches";
 import { XP_VALUES, randomCheer } from "../lib/xp";
 
 function shuffle<T>(arr: T[]): T[] {
@@ -42,6 +43,7 @@ export function Revision() {
   const [flipped, setFlipped] = useState(false);
   const [correctCount, setCorrectCount] = useState(0);
   const [finished, setFinished] = useState(false);
+  const [mainTab, setMainTab] = useState<"vocab" | "fiches">("vocab");
 
   const start = () => {
     setSession(shuffle(dueCards));
@@ -64,24 +66,6 @@ export function Revision() {
       setFlipped(false);
     }
   };
-
-  if (allCards.length === 0) {
-    return (
-      <div className="rounded-2xl border border-pink-100 bg-white p-8 text-center">
-        <Mascot mood="happy" size={80} className="mx-auto mb-3" />
-        <p className="text-lg font-bold text-gray-900 font-heading">Pas encore de vocabulaire à réviser</p>
-        <p className="text-sm text-gray-500 mt-1">
-          Termine la leçon de vocabulaire d'un palier pour que ses mots apparaissent ici.
-        </p>
-        <Link
-          to="/"
-          className="inline-block mt-4 px-5 py-2.5 rounded-full bg-fuchsia-600 text-white font-semibold hover:bg-fuchsia-700 transition"
-        >
-          Retour à l'accueil
-        </Link>
-      </div>
-    );
-  }
 
   if (session && finished) {
     return (
@@ -164,43 +148,80 @@ export function Revision() {
       <section className="mb-6 flex items-center gap-4">
         <Mascot mood={dueCards.length > 0 ? "excited" : "happy"} size={72} />
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 font-heading">Réviser le vocabulaire</h1>
-          <p className="text-gray-500 text-sm">
-            Répétition espacée : les mots reviennent juste avant que tu ne les oublies.
-          </p>
+          <h1 className="text-2xl font-bold text-gray-900 font-heading">Réviser</h1>
+          <p className="text-gray-500 text-sm">Vocabulaire par répétition espacée, ou fiches de tout ce que tu as déjà appris.</p>
         </div>
       </section>
 
-      <section className="rounded-2xl bg-gradient-to-br from-fuchsia-500 to-rose-400 text-white p-6 mb-6 text-center">
-        <p className="text-4xl font-bold font-heading">{dueCards.length}</p>
-        <p className="text-sm text-white/90 mb-4">{dueCards.length > 1 ? "mots à réviser aujourd'hui" : "mot à réviser aujourd'hui"}</p>
+      <div className="flex gap-2 mb-6">
         <button
-          onClick={start}
-          disabled={dueCards.length === 0}
-          className="px-6 py-3 rounded-full bg-white text-fuchsia-700 font-bold hover:opacity-90 active:scale-95 transition disabled:opacity-50"
+          onClick={() => setMainTab("vocab")}
+          className={`flex-1 px-4 py-2.5 rounded-full text-sm font-semibold border transition ${
+            mainTab === "vocab" ? "bg-gray-900 text-white border-gray-900" : "bg-white text-gray-600 border-gray-200 hover:border-fuchsia-300"
+          }`}
         >
-          {dueCards.length === 0 ? "Rien à réviser, bravo !" : "Commencer la révision ⚡"}
+          ⚡ Vocabulaire
         </button>
-      </section>
+        <button
+          onClick={() => setMainTab("fiches")}
+          className={`flex-1 px-4 py-2.5 rounded-full text-sm font-semibold border transition ${
+            mainTab === "fiches" ? "bg-gray-900 text-white border-gray-900" : "bg-white text-gray-600 border-gray-200 hover:border-fuchsia-300"
+          }`}
+        >
+          📋 Fiches de révision
+        </button>
+      </div>
 
-      <section className="rounded-2xl border border-pink-100 bg-white p-5">
-        <h2 className="font-heading font-bold text-gray-900 mb-3">Ta collection</h2>
-        <p className="text-sm text-gray-500 mb-4">{allCards.length} mots suivis au total, répartis en 5 niveaux de mémorisation.</p>
-        <div className="space-y-2">
-          {boxCounts.map((count, i) => (
-            <div key={i} className="flex items-center gap-3">
-              <span className="text-xs text-gray-500 w-24 shrink-0">{BOX_LABELS[i + 1]}</span>
-              <div className="flex-1 h-2.5 rounded-full bg-gray-100 overflow-hidden">
-                <div
-                  className="h-full bg-gradient-to-r from-fuchsia-400 to-rose-400"
-                  style={{ width: `${allCards.length ? (count / allCards.length) * 100 : 0}%` }}
-                />
-              </div>
-              <span className="text-xs text-gray-400 w-8 text-right">{count}</span>
-            </div>
-          ))}
+      {mainTab === "fiches" ? (
+        <RevisionFiches />
+      ) : allCards.length === 0 ? (
+        <div className="rounded-2xl border border-pink-100 bg-white p-8 text-center">
+          <Mascot mood="happy" size={80} className="mx-auto mb-3" />
+          <p className="text-lg font-bold text-gray-900 font-heading">Pas encore de vocabulaire à réviser</p>
+          <p className="text-sm text-gray-500 mt-1">
+            Termine la leçon de vocabulaire d'un palier pour que ses mots apparaissent ici.
+          </p>
+          <Link
+            to="/"
+            className="inline-block mt-4 px-5 py-2.5 rounded-full bg-fuchsia-600 text-white font-semibold hover:bg-fuchsia-700 transition"
+          >
+            Retour à l'accueil
+          </Link>
         </div>
-      </section>
+      ) : (
+        <>
+          <section className="rounded-2xl bg-gradient-to-br from-fuchsia-500 to-rose-400 text-white p-6 mb-6 text-center">
+            <p className="text-4xl font-bold font-heading">{dueCards.length}</p>
+            <p className="text-sm text-white/90 mb-4">{dueCards.length > 1 ? "mots à réviser aujourd'hui" : "mot à réviser aujourd'hui"}</p>
+            <button
+              onClick={start}
+              disabled={dueCards.length === 0}
+              className="px-6 py-3 rounded-full bg-white text-fuchsia-700 font-bold hover:opacity-90 active:scale-95 transition disabled:opacity-50"
+            >
+              {dueCards.length === 0 ? "Rien à réviser, bravo !" : "Commencer la révision ⚡"}
+            </button>
+          </section>
+
+          <section className="rounded-2xl border border-pink-100 bg-white p-5">
+            <h2 className="font-heading font-bold text-gray-900 mb-3">Ta collection</h2>
+            <p className="text-sm text-gray-500 mb-4">{allCards.length} mots suivis au total, répartis en 5 niveaux de mémorisation.</p>
+            <div className="space-y-2">
+              {boxCounts.map((count, i) => (
+                <div key={i} className="flex items-center gap-3">
+                  <span className="text-xs text-gray-500 w-24 shrink-0">{BOX_LABELS[i + 1]}</span>
+                  <div className="flex-1 h-2.5 rounded-full bg-gray-100 overflow-hidden">
+                    <div
+                      className="h-full bg-gradient-to-r from-fuchsia-400 to-rose-400"
+                      style={{ width: `${allCards.length ? (count / allCards.length) * 100 : 0}%` }}
+                    />
+                  </div>
+                  <span className="text-xs text-gray-400 w-8 text-right">{count}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+        </>
+      )}
     </div>
   );
 }
