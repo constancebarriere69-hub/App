@@ -174,6 +174,13 @@ export function Dashboard() {
           <p className="text-[11px] font-semibold text-gray-800">Réviser</p>
         </Link>
         <Link
+          to="/test-niveau"
+          className="rounded-2xl border border-pink-100 bg-white p-3 text-center hover:shadow-md transition"
+        >
+          <p className="text-2xl mb-1">📝</p>
+          <p className="text-[11px] font-semibold text-gray-800">Test de niveau</p>
+        </Link>
+        <Link
           to="/grammaire"
           className="rounded-2xl border border-pink-100 bg-white p-3 text-center hover:shadow-md transition"
         >

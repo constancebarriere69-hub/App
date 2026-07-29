@@ -226,6 +226,15 @@ export interface NumberEntry {
   transcription: string;
 }
 
+export interface LevelTestQuestion {
+  id: string;
+  level: CEFRLevel;
+  prompt: string;
+  choices: string[];
+  correctIndex: number;
+  explanation: string;
+}
+
 export interface DialogueScenario {
   id: string;
   title: string;

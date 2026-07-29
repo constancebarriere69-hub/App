@@ -18,6 +18,7 @@ import { Idiomes } from "./pages/Idiomes";
 import { Aspects } from "./pages/Aspects";
 import { VerbesMouvement } from "./pages/VerbesMouvement";
 import { Prepositions } from "./pages/Prepositions";
+import { TestNiveau } from "./pages/TestNiveau";
 import { Profil } from "./pages/Profil";
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
           <Route path="/aspects" element={<Aspects />} />
           <Route path="/verbes-mouvement" element={<VerbesMouvement />} />
           <Route path="/prepositions" element={<Prepositions />} />
+          <Route path="/test-niveau" element={<TestNiveau />} />
           <Route path="/profil" element={<Profil />} />
         </Route>
       </Routes>
